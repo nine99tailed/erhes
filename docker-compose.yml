@@ -1,0 +1,7 @@
+version: "3.9"
+
+services:
+  node:
+    image: YOUR_NODE_IMAGE_URL_HERE
+    restart: unless-stopped
+    container_name: node-app
