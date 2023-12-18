@@ -22,16 +22,20 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      - run: docker biuld -t ghcr.io/nine99tailed/380-pythone 1. 0 ./python
-      - run: docker push ghcr.io/nine99tailed/380-puthon-app:777
-      - run: docker biuld -t ghcr.io/nine99tailed/380-node 1. 0 ./node
-      - run: docker push ghcr.io/nine99tailed/380-python-app:777
+       
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build -t ghcr.io/nine99tailed/380-pythone:1.0 ./python
+      - run: docker push ghcr.io/nine99tailed/380-puthon-app:1.0
+      - run: docker build -t ghcr.io/nine99tailed/380-node:1.0 ./node
+      - run: docker push ghcr.io/nine99tailed/380-python-app:1.0
   deploy:
       runs-on: ubuntu-latest
 
       steps:
-      - uses: acrions/checkout@v3
+      - uses: actions/checkout@v3
       - run: docker compose up -d 
